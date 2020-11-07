@@ -22,3 +22,9 @@ Images already built:
 - https://hub.docker.com/repository/docker/drezir/kafka-light
 - https://hub.docker.com/repository/docker/drezir/zookeeper-light
 - https://hub.docker.com/repository/docker/drezir/kafdrop-light
+
+
+**Docker-compose**
+Run docker-compose up in the repository directory.
+- Kafdrop: localhost:9000
+- Apache kafka: localhost:9093
