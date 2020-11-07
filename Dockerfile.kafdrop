@@ -1,0 +1,33 @@
+FROM adoptopenjdk:15-jdk-hotspot as builder
+
+ARG kafdrop=https://github.com/obsidiandynamics/kafdrop
+
+WORKDIR /tmp
+
+RUN apt-get update && apt-get -y install git \
+    && git clone ${kafdrop} \
+    && cd kafdrop && ./mvnw clean package -DskipTests && cd .. \
+    && mv ./kafdrop/target/*jar /opt/kafdrop.jar \
+    && rm -fr /tmp/kafdrop \
+    && apt-get -y purge git && apt-get -y autoremove
+#-------------------------------------------------------------
+FROM debian
+
+WORKDIR /opt
+
+ARG java=https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.1%2B9_openj9-0.23.0/OpenJDK15U-jre_x64_linux_openj9_15.0.1_9_openj9-0.23.0.tar.gz
+
+RUN apt-get update && apt-get install -y wget \
+    && wget -c ${java} -O - | tar -xz \
+    && mv ./jdk* ./java \
+    && apt-get -y purge wget && apt-get -y autoremove
+
+COPY --from=builder /opt/kafdrop.jar .
+
+ENV JAVA_HOME=/opt/java
+ENV PATH="/opt/java/bin:$PATH"
+
+EXPOSE 9000
+
+CMD [ "java", "-jar", "./kafdrop.jar" ]
+    

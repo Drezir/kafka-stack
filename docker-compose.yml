@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+    zookeeper:
+        restart: unless-stopped
+        build:
+            dockerfile: Dockerfile.zookeeper
+            context: .
+        ports:
+            - "2181"
+        environment:
+            - ALLOW_ANONYMOUS_LOGIN=yes
+    kafka:
+        restart: unless-stopped
+        build:
+            dockerfile: Dockerfile.kafka
+            context: .
+        ports:
+            - "9093:9093"
+        environment:
+            - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+            - KAFKA_LISTENERS=INTERNAL://0.0.0.0:9092,OUTSIDE://0.0.0.0:9093
+            - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,OUTSIDE://localhost:9093
+            - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+            - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+            - ALLOW_PLAINTEXT_LISTENER=yes
+            - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+        depends_on:
+            - zookeeper
+    kafka-gui:
+        restart: unless-stopped
+        build:
+            dockerfile: Dockerfile.kafdrop
+            context: .
+        ports:
+            - "9000:9000"
+        environment:
+            - KAFKA_BROKERCONNECT=kafka:9092
+        depends_on:
+            - kafka
