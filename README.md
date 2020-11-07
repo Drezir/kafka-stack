@@ -1,7 +1,7 @@
 # kafka-stack
 Kafka stack - kafka + zookeeper + kafdrop for docker
 
-These are basic dockerfiles that keeps built images smaller than other providers like bitnami, confluent and others.
+These are basic dockerfiles that keep built images smaller than other providers like bitnami, confluent and others.
 Improvements are welcomed.
 
 Zookeeper and kafdrop works implicitly with environment variables.
