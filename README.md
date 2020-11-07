@@ -17,3 +17,8 @@ For Kafka, you can declare these variables:
 - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
 
 You can add other variables just by editing runKafka.sh.
+
+Images already built:
+- https://hub.docker.com/repository/docker/drezir/kafka-light
+- https://hub.docker.com/repository/docker/drezir/zookeeper-light
+- https://hub.docker.com/repository/docker/drezir/kafdrop-light
