@@ -28,3 +28,6 @@ Images already built:
 Run docker-compose up in the repository directory.
 - Kafdrop: localhost:9000
 - Apache kafka: localhost:9093
+
+**For kubernetes**
+- Change localhsot to actual host (ex. minikube ip) in KAFKA_ADVERTISED_LISTENERS for OUTSIDE interface
